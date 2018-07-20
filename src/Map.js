@@ -30,18 +30,21 @@ export default declare([_WidgetBase, Evented], {
         // TODO: allow this when strict mode is enabled
         //this.inherited(arguments);
 
+        // Create webmap using config id
         const webmap = new WebMap({
             portalItem: {
                 id: config.webmapId
             }
         });
 
+        // Create the view
         this.view = new MapView({
             map: webmap,
             container: this.container
         });
 
         this.view.when(() => {
+            // Add click handler
             this.own(
                 this.view.on("click", evt => {
                     this.drawCircle(evt);
@@ -53,6 +56,10 @@ export default declare([_WidgetBase, Evented], {
         });
     },
 
+    /**
+     * Draws a circle on the map
+     * @param {object} evt - the click event
+     */
     drawCircle(evt) {
         let circle,
             radius,
@@ -70,6 +77,9 @@ export default declare([_WidgetBase, Evented], {
         view.graphics.add(new Graphic(circle, this.symbol));
     },
 
+    /**
+     * Reports the current map extent
+     */
     showExtent() {
         let extent = this.view.extent;
         alert(`${extent.xmin} ${extent.ymin} ${extent.xmax} ${extent.ymax}`);
